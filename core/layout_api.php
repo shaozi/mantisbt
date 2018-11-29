@@ -562,7 +562,7 @@ function layout_navbar_button_bar() {
 		echo '</a>';
 	}
 
-	if( $t_show_invite_user_button ) {
+	if( $t_show_invite_user_button && ON == config_get('show_invite_user') ) {
 		echo '<a class="btn btn-primary btn-sm" href="manage_user_create_page.php">';
 		echo '<i class="fa fa-user-plus"></i> ' . lang_get( 'invite_users' );
 		echo '</a>';
