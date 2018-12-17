@@ -161,6 +161,7 @@ print_summary_submenu();
 	</div>
 
 	<!-- DEVELOPER STATS -->
+</div>
 
 <!-- RIGHT COLUMN -->
 <div class="col-md-6 col-xs-12">
@@ -242,6 +243,7 @@ print_summary_submenu();
 
 	<!-- REPORTER EFFECTIVENESS -->
 	
+</div>
 
 <!-- BOTTOM -->
 <div class="col-md-12 col-xs-12">
