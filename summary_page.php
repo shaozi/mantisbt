@@ -97,20 +97,7 @@ print_summary_submenu();
 <!-- LEFT COLUMN -->
 <div class="col-md-6 col-xs-12">
 
-	<!-- BY PROJECT 
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-35"><?php echo lang_get( 'by_project' ) ?></th>
-				<?php echo $t_summary_header ?>
-			</tr>
-		</thead>
-		<?php summary_print_by_project( array(), null, null, $t_filter ); ?>
-	</table>
-	</div>
--->
+	<!-- BY PROJECT -->
 	<!-- BY STATUS -->
 	<div class="space-10"></div>
 	<div class="widget-box table-responsive">
