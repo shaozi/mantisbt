@@ -96,19 +96,6 @@ print_summary_submenu();
 <div class="col-md-6 col-xs-12">
 
 	<!-- BY PROJECT -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-35"><?php echo lang_get( 'by_project' ) ?></th>
-				<?php echo $t_summary_header ?>
-			</tr>
-		</thead>
-		<?php summary_print_by_project(); ?>
-	</table>
-	</div>
-
 	<!-- BY STATUS -->
 	<div class="space-10"></div>
 	<div class="widget-box table-responsive">
@@ -124,18 +111,6 @@ print_summary_submenu();
 	</div>
 
 	<!-- BY SEVERITY -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-35"><?php echo lang_get( 'by_severity' ) ?></th>
-				<?php echo $t_summary_header ?>
-			</tr>
-		</thead>
-		<?php summary_print_by_enum( 'severity' ) ?>
-	</table>
-	</div>
 
 	<!-- BY CATEGORY -->
 	<div class="space-10"></div>
@@ -184,18 +159,6 @@ print_summary_submenu();
 	</div>
 
 	<!-- DEVELOPER STATS -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th><?php echo lang_get( 'developer_stats' ) ?></th>
-				<?php echo $t_summary_header ?>
-			</tr>
-		</thead>
-		<?php summary_print_by_developer() ?>
-	</table>
-</div>
 </div>
 
 <!-- RIGHT COLUMN -->
@@ -274,85 +237,19 @@ print_summary_submenu();
 	</div>
 
 	<!-- REPORTER STATS -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-35"><?php echo lang_get( 'reporter_stats' ) ?></th>
-				<?php echo $t_summary_header ?>
-			</tr>
-		</thead>
-		<?php summary_print_by_reporter() ?>
-	</table>
-	</div>
+	
 
 	<!-- REPORTER EFFECTIVENESS -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-35"><?php echo lang_get( 'reporter_effectiveness' ) ?></th>
-				<th class="align-right"><?php echo lang_get( 'severity' ); ?></th>
-				<th class="align-right"><?php echo lang_get( 'errors' ); ?></th>
-				<th class="align-right"><?php echo lang_get( 'total' ); ?></th>
-			</tr>
-		</thead>
-		<?php summary_print_reporter_effectiveness( config_get( 'severity_enum_string' ), config_get( 'resolution_enum_string' ) ) ?>
-	</table>
-	</div>
-
+	
 </div>
 
 <!-- BOTTOM -->
 <div class="col-md-12 col-xs-12">
 
 	<!-- REPORTER BY RESOLUTION -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-15"><?php echo lang_get( 'reporter_by_resolution' ) ?></th>
-				<?php
-					$t_resolutions = MantisEnum::getValues( config_get( 'resolution_enum_string' ) );
-
-					foreach ( $t_resolutions as $t_resolution ) {
-						echo '<th class="align-right">', get_enum_element( 'resolution', $t_resolution ), "</th>\n";
-					}
-
-					echo '<th class="align-right">', lang_get( 'total' ), "</th>\n";
-					echo '<th class="align-right">', lang_get( 'percentage_errors' ), "</th>\n";
-				?>
-			</tr>
-		</thead>
-		<?php summary_print_reporter_resolution( config_get( 'resolution_enum_string' ) ) ?>
-	</table>
-	</div>
-
+	
 	<!-- DEVELOPER BY RESOLUTION -->
-	<div class="space-10"></div>
-	<div class="widget-box table-responsive">
-		<table class="table table-hover table-bordered table-condensed table-striped">
-		<thead>
-			<tr>
-				<th class="width-15"><?php echo lang_get( 'developer_by_resolution' ) ?></th>
-				<?php
-					$t_resolutions = MantisEnum::getValues( config_get( 'resolution_enum_string' ) );
 
-					foreach ( $t_resolutions as $t_resolution ) {
-						echo '<th class="align-right">', get_enum_element( 'resolution', $t_resolution ), "</th>\n";
-					}
-
-					echo '<th class="align-right">', lang_get( 'total' ), "</th>\n";
-					echo '<th class="align-right">', lang_get( 'percentage_fixed' ), "</th>\n";
-				?>
-			</tr>
-		</thead>
-		<?php summary_print_developer_resolution( config_get( 'resolution_enum_string' ) ) ?>
-	</table>
-	</div>
 
 </div>
 
