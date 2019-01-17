@@ -55,6 +55,12 @@ require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 require_css( 'login.css' );
 
+# saml sso support
+$login_page = config_get_global( 'sso_login_page' );
+if ($login_page) {
+	print_header_redirect( $login_page );
+	exit;
+}
 $f_error                 = gpc_get_bool( 'error' );
 $f_cookie_error          = gpc_get_bool( 'cookie_error' );
 $f_return                = string_sanitize_url( gpc_get_string( 'return', '' ) );
