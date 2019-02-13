@@ -470,19 +470,7 @@ if( $t_show_attachments ) {
 	</tr>
 <?php } ?>
 
-<?php if( $t_show_handler ) { ?>
-	<tr>
-		<th class="category">
-			<label for="handler_id"><?php echo lang_get( 'assign_to' ) ?></label>
-		</th>
-		<td>
-			<select <?php echo helper_get_tab_index() ?> id="handler_id" name="handler_id" class="input-sm">
-				<option value="0" selected="selected"></option>
-				<?php print_assign_to_option_list( $f_handler_id ) ?>
-			</select>
-		</td>
-	</tr>
-<?php } ?>
+
 
 <?php if( $t_show_status ) { ?>
 	<tr>
@@ -576,6 +564,21 @@ if( $t_show_attachments ) {
 		</td>
 	</tr>
 <?php } ?>
+
+<?php if( $t_show_handler ) { ?>
+	<tr>
+		<th class="category">
+			<label for="handler_id"><?php echo lang_get( 'assign_to' ) ?></label>
+		</th>
+		<td>
+			<select <?php echo helper_get_tab_index() ?> id="handler_id" name="handler_id" class="input-sm">
+				<option value="0" selected="selected"></option>
+				<?php print_assign_to_option_list( $f_handler_id ) ?>
+			</select>
+		</td>
+	</tr>
+<?php } ?>
+
 <?php if( $t_show_tags ) { ?>
 	<tr>
 		<th class="category">
