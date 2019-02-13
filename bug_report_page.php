@@ -614,10 +614,7 @@ if( $t_show_attachments ) {
 			<label for="additional_info"><?php print_documentation_link( 'additional_information' ) ?></label>
 		</th>
 		<td>
-			<?php # Newline after opening textarea tag is intentional, see #25839 ?>
-			<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="additional_info" name="additional_info" cols="80" rows="10">
-<?php echo string_textarea( $f_additional_info ) ?>
-</textarea>
+			<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="additional_info" name="additional_info" cols="80" rows="5"><?php echo string_textarea( $f_additional_info ) ?></textarea>
 		</td>
 	</tr>
 <?php } ?>
