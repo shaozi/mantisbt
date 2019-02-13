@@ -575,7 +575,45 @@ if( $t_show_attachments ) {
 			</td>
 		</tr>
 <?php } ?>
+<?php
+/**
+ * Insert mandatory custom fields here so all mandatory fields are at the top
+ */
+	$t_custom_fields_found = false;
+	$t_related_custom_field_ids = custom_field_get_linked_ids( $t_project_id );
 
+	foreach( $t_related_custom_field_ids as $t_id ) {
+		$t_def = custom_field_get_definition( $t_id );
+		if ( !$t_def['require_report'] ) {
+			continue;
+		}
+		if( ( $t_def['display_report'] || $t_def['require_report']) && custom_field_has_write_access_to_project( $t_id, $t_project_id ) ) {
+			$t_custom_fields_found = true;
+
+			if( $t_def['type'] != CUSTOM_FIELD_TYPE_RADIO && $t_def['type'] != CUSTOM_FIELD_TYPE_CHECKBOX ) {
+				$t_label_for = 'for="custom_field_' . string_attribute( $t_def['id'] ) . '" ';
+			} else {
+				$t_label_for = '';
+			}
+	?>
+	<tr>
+		<th class="category">
+			<?php if( $t_def['require_report'] ) {?><span class="required">*</span><?php } ?>
+			<?php if( $t_def['type'] != CUSTOM_FIELD_TYPE_RADIO && $t_def['type'] != CUSTOM_FIELD_TYPE_CHECKBOX ) { ?>
+				<label for="custom_field_<?php echo string_attribute( $t_def['id'] ) ?>">
+					<?php echo string_display_line( lang_get_defaulted( $t_def['name'] ) ) ?>
+				</label>
+			<?php } else { echo string_display_line( lang_get_defaulted( $t_def['name'] ) ); } ?>
+		</th>
+		<td>
+			<?php print_custom_field_input( $t_def, ( $f_master_bug_id === 0 ) ? null : $f_master_bug_id, $t_def['require_report'] ) ?>
+		</td>
+	</tr>
+	<?php
+		}
+	} # foreach( $t_related_custom_field_ids as $t_id )
+
+?>
 <?php if( $t_show_additional_info ) { ?>
 	<tr>
 		<th class="category">
@@ -615,12 +653,19 @@ if( $t_show_attachments ) {
 	</tr>
 <?php
 	}
-
-	$t_custom_fields_found = false;
+?>
+<?php
+	/**
+	 * display only none-mandatory custom fields
+	 */
+	//$t_custom_fields_found = false;
 	$t_related_custom_field_ids = custom_field_get_linked_ids( $t_project_id );
 
 	foreach( $t_related_custom_field_ids as $t_id ) {
 		$t_def = custom_field_get_definition( $t_id );
+		if ( $t_def['require_report'] ) {
+			continue;
+		}
 		if( ( $t_def['display_report'] || $t_def['require_report']) && custom_field_has_write_access_to_project( $t_id, $t_project_id ) ) {
 			$t_custom_fields_found = true;
 
