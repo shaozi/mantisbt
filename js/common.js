@@ -398,6 +398,10 @@ $(document).ready( function() {
 		);
 		$('.visible-on-hover').addClass('invisible');
 	}
+	/**
+	 * multiple select applied
+	 */
+	$('select[multiple]').multipleSelect({width:'100%', selectAll:false, multiple: true, multipleWidth: 200, minimumCountSelected: 12});
 });
 
 function setBugLabel() {

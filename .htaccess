@@ -1,0 +1,7 @@
+Options -Indexes
+RedirectMatch 404 /\.git/?
+ServerSignature Off
+ErrorDocument 401 "not authorized"
+ErrorDocument 404 "not found"
+ErrorDocument 403 "not allowed"
+ErrorDocument 500 "error!"

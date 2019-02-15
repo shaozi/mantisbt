@@ -470,19 +470,7 @@ if( $t_show_attachments ) {
 	</tr>
 <?php } ?>
 
-<?php if( $t_show_handler ) { ?>
-	<tr>
-		<th class="category">
-			<label for="handler_id"><?php echo lang_get( 'assign_to' ) ?></label>
-		</th>
-		<td>
-			<select <?php echo helper_get_tab_index() ?> id="handler_id" name="handler_id" class="input-sm">
-				<option value="0" selected="selected"></option>
-				<?php print_assign_to_option_list( $f_handler_id ) ?>
-			</select>
-		</td>
-	</tr>
-<?php } ?>
+
 
 <?php if( $t_show_status ) { ?>
 	<tr>
@@ -551,7 +539,7 @@ if( $t_show_attachments ) {
 			<span class="required">*</span><label for="description"><?php print_documentation_link( 'description' ) ?></label>
 		</th>
 		<td>
-			<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="description" name="description" cols="80" rows="10" required><?php echo string_textarea( $f_description ) ?></textarea>
+			<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="description" name="description" cols="80" rows="5" required><?php echo string_textarea( $f_description ) ?></textarea>
 		</td>
 	</tr>
 
@@ -561,21 +549,74 @@ if( $t_show_attachments ) {
 				<label for="steps_to_reproduce"><?php print_documentation_link( 'steps_to_reproduce' ) ?></label>
 			</th>
 			<td>
-				<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="steps_to_reproduce" name="steps_to_reproduce" cols="80" rows="10"><?php echo string_textarea( $f_steps_to_reproduce ) ?></textarea>
+				<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="steps_to_reproduce" name="steps_to_reproduce" cols="80" rows="5"><?php echo string_textarea( $f_steps_to_reproduce ) ?></textarea>
 			</td>
 		</tr>
 <?php } ?>
+<?php
+/**
+ * Insert mandatory custom fields here so all mandatory fields are at the top
+ */
+	$t_custom_fields_found = false;
+	$t_related_custom_field_ids = custom_field_get_linked_ids( $t_project_id );
 
+	foreach( $t_related_custom_field_ids as $t_id ) {
+		$t_def = custom_field_get_definition( $t_id );
+		if ( !$t_def['require_report'] ) {
+			continue;
+		}
+		if( ( $t_def['display_report'] || $t_def['require_report']) && custom_field_has_write_access_to_project( $t_id, $t_project_id ) ) {
+			$t_custom_fields_found = true;
+
+			if( $t_def['type'] != CUSTOM_FIELD_TYPE_RADIO && $t_def['type'] != CUSTOM_FIELD_TYPE_CHECKBOX ) {
+				$t_label_for = 'for="custom_field_' . string_attribute( $t_def['id'] ) . '" ';
+			} else {
+				$t_label_for = '';
+			}
+	?>
+	<tr>
+		<th class="category">
+			<?php if( $t_def['require_report'] ) {?><span class="required">*</span><?php } ?>
+			<?php if( $t_def['type'] != CUSTOM_FIELD_TYPE_RADIO && $t_def['type'] != CUSTOM_FIELD_TYPE_CHECKBOX ) { ?>
+				<label for="custom_field_<?php echo string_attribute( $t_def['id'] ) ?>">
+					<?php echo string_display_line( lang_get_defaulted( $t_def['name'] ) ) ?>
+				</label>
+			<?php } else { echo string_display_line( lang_get_defaulted( $t_def['name'] ) ); } ?>
+		</th>
+		<td>
+			<?php print_custom_field_input( $t_def, ( $f_master_bug_id === 0 ) ? null : $f_master_bug_id, $t_def['require_report'] ) ?>
+		</td>
+	</tr>
+	<?php
+		}
+	} # foreach( $t_related_custom_field_ids as $t_id )
+
+?>
 <?php if( $t_show_additional_info ) { ?>
 	<tr>
 		<th class="category">
 			<label for="additional_info"><?php print_documentation_link( 'additional_information' ) ?></label>
 		</th>
 		<td>
-			<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="additional_info" name="additional_info" cols="80" rows="10"><?php echo string_textarea( $f_additional_info ) ?></textarea>
+			<textarea class="form-control" <?php echo helper_get_tab_index() ?> id="additional_info" name="additional_info" cols="80" rows="5"><?php echo string_textarea( $f_additional_info ) ?></textarea>
 		</td>
 	</tr>
 <?php } ?>
+
+<?php if( $t_show_handler ) { ?>
+	<tr>
+		<th class="category">
+			<label for="handler_id"><?php echo lang_get( 'assign_to' ) ?></label>
+		</th>
+		<td>
+			<select <?php echo helper_get_tab_index() ?> id="handler_id" name="handler_id" class="input-sm">
+				<option value="0" selected="selected"></option>
+				<?php print_assign_to_option_list( $f_handler_id ) ?>
+			</select>
+		</td>
+	</tr>
+<?php } ?>
+
 <?php if( $t_show_tags ) { ?>
 	<tr>
 		<th class="category">
@@ -587,12 +628,19 @@ if( $t_show_attachments ) {
 	</tr>
 <?php
 	}
-
-	$t_custom_fields_found = false;
+?>
+<?php
+	/**
+	 * display only none-mandatory custom fields
+	 */
+	//$t_custom_fields_found = false;
 	$t_related_custom_field_ids = custom_field_get_linked_ids( $t_project_id );
 
 	foreach( $t_related_custom_field_ids as $t_id ) {
 		$t_def = custom_field_get_definition( $t_id );
+		if ( $t_def['require_report'] ) {
+			continue;
+		}
 		if( ( $t_def['display_report'] || $t_def['require_report']) && custom_field_has_write_access_to_project( $t_id, $t_project_id ) ) {
 			$t_custom_fields_found = true;
 

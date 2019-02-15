@@ -466,7 +466,7 @@ function cfdef_input_textbox( array $p_field_def, $p_custom_field_value, $p_requ
  */
 function cfdef_input_textarea( array $p_field_def, $p_custom_field_value, $p_required = '' ) {
 	echo '<textarea class="form-control" ' . helper_get_tab_index() . ' id="custom_field_' . $p_field_def['id'] . '" name="custom_field_' . $p_field_def['id'] . '"' . $p_required;
-	echo ' cols="70" rows="8">' . $p_custom_field_value .'</textarea>';
+	echo ' cols="70" rows="4">' . $p_custom_field_value .'</textarea>';
 }
 
 /**
