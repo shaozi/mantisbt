@@ -571,17 +571,19 @@ function layout_navbar_button_bar() {
 		return;
 	}
 
-	$t_can_report_bug = access_has_any_project_level( 'report_bug_threshold' );
-	$t_can_invite_user = current_user_is_administrator();
+	$t_show_report_bug_button = access_has_any_project_level( 'report_bug_threshold' ) &&
+		!is_page_name( string_get_bug_page( "report" ) ) &&
+		!is_page_name( string_get_bug_page( "update" ) );
+	$t_show_invite_user_button = current_user_is_administrator();
 
-	if( !$t_can_report_bug && !$t_can_invite_user ) {
+	if( !$t_show_report_bug_button && !$t_show_invite_user_button ) {
 		return;
 	}
 
 	echo '<li class="hidden-sm hidden-xs">';
 	echo '<div class="btn-group btn-corner padding-right-8 padding-left-8">';
 
-	if( $t_can_report_bug ) {
+	if( $t_show_report_bug_button )  {
 		$t_bug_url = string_get_bug_report_url();
 		echo '<a class="btn btn-primary btn-sm" href="' . $t_bug_url . '">';
 		echo '<i class="fa fa-edit"></i> ' . lang_get( 'report_bug_link' );
@@ -780,21 +782,25 @@ function layout_print_sidebar( $p_active_sidebar_page = null ) {
 		if( access_has_global_level( config_get( 'manage_site_threshold' ) ) ) {
 			layout_sidebar_menu( 'manage_overview_page.php', 'manage_link', 'fa-gears', $p_active_sidebar_page );
 		} else {
-			$t_show_manage_user = access_has_global_level( config_get( 'manage_user_threshold' ) );
-			$t_show_manage_custom_fields = access_has_global_level( config_get( 'manage_custom_fields_threshold' ) );
-			$t_show_manage_project = access_has_any_project_level( 'manage_project_threshold' );
-			if( $t_show_manage_user || $t_show_manage_custom_fields || $t_show_manage_project ) {
-				if( $t_show_manage_user ) {
-					$t_link = 'manage_user_page.php';
-				} else {
-					if( $t_show_manage_project && ( $t_current_project <> ALL_PROJECTS ) ) {
-						$t_link = 'manage_proj_edit_page.php?project_id=' . $t_current_project;
-					} else {
+			if( access_has_global_level( config_get( 'manage_user_threshold' ) ) ) {
+				$t_link = 'manage_user_page.php';
+			} else {
+				$t_link = '';
+				if( access_has_any_project_level( 'manage_project_threshold' ) ) {
+					if( $t_current_project == ALL_PROJECTS ) {
 						$t_link = 'manage_proj_page.php';
+					} else {
+						if( access_has_project_level( config_get( 'manage_project_threshold' ), $t_current_project ) ) {
+							$t_link = 'manage_proj_edit_page.php?project_id=' . $t_current_project;
+						} else {
+							if ( access_has_global_level( config_get( 'manage_custom_fields_threshold' ) ) ) {
+								$t_link = 'manage_custom_field_page.php';
+							}
+						}
 					}
 				}
-				layout_sidebar_menu( $t_link , 'manage_link', 'fa-gears' );
 			}
+			if( $t_link != '' ) layout_sidebar_menu( $t_link , 'manage_link', 'fa-gears' );
 		}
 
 		# Time Tracking / Billing
@@ -942,7 +948,7 @@ function layout_sidebar_end() {
 
 	$t_collapse_block = is_collapsed( 'sidebar' );
 
-	echo '<div class="sidebar-toggle sidebar-collapse">';
+	echo '<div id="sidebar-btn" class="sidebar-toggle sidebar-collapse">';
 	if( layout_is_rtl() ) {
 		$t_block_icon = $t_collapse_block ? 'fa-angle-double-left' : 'fa-angle-double-right';
 		echo '<i data-icon2="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-right"
@@ -1013,6 +1019,10 @@ function layout_page_content_end() {
  * @return void
  */
 function layout_breadcrumbs() {
+	if( !auth_is_user_authenticated() ) {
+		return;
+	}
+
 	echo '<div id="breadcrumbs" class="breadcrumbs noprint">' , "\n";
 
 	# Login information

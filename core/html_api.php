@@ -590,15 +590,14 @@ function print_summary_submenu() {
 
 	if( count($t_menu_options) > 0 ) {
 		echo '<div class="space-10"></div>';
-		echo '<div class="center">';
-		echo '<div class="btn-toolbar inline">';
+		echo '<div class="col-md-12 col-xs-12 center">';
 		echo '<div class="btn-group">';
 
 		# Plugins menu items - these are cooked links
 		foreach ($t_menu_options as $t_menu_item) {
 			echo $t_menu_item;
 		}
-		echo '</div></div></div>';
+		echo '</div></div>';
 	}
 }
 
@@ -862,11 +861,12 @@ function print_doc_menu( $p_page = '' ) {
 }
 
 /**
- * Print the menu for the summary section
+ * Print the menu for the summary section.
  * @param string $p_page Specifies the current page name so it's link can be disabled.
+ * @param array $p_filter Filter array, the one in use for summary pages.
  * @return void
  */
-function print_summary_menu( $p_page = '' ) {
+function print_summary_menu( $p_page = '', array $p_filter = null ) {
 	# Plugin / Event added options
 	$t_event_menu_options = event_signal( 'EVENT_MENU_SUMMARY' );
 	$t_menu_options = array();
@@ -886,10 +886,12 @@ function print_summary_menu( $p_page = '' ) {
 
 	echo '<ul class="nav nav-tabs padding-18">' . "\n";
 
+	$t_filter_param = $p_filter ? filter_get_temporary_key_param( $p_filter ) : null;
 	foreach ( $t_pages as $t_page ) {
 		$t_active =  $t_page['url'] == $p_page ? 'active' : '';
+		$t_link = $t_filter_param ? helper_url_combine( $t_page['url'], $t_filter_param ) : $t_page['url'];
 		echo '<li class="' . $t_active . '">' . "\n";
-		echo '<a href="'. helper_mantis_url( $t_page['url'] ) .'">' . "\n";
+		echo '<a href="'. helper_mantis_url( $t_link ) .'">' . "\n";
 		echo lang_get( $t_page['label'] );
 		echo '</a>' . "\n";
 		echo '</li>' . "\n";
@@ -901,43 +903,54 @@ function print_summary_menu( $p_page = '' ) {
 	}
 
 	echo '</ul>' . "\n";
+
+	summary_print_filter_info( $p_filter );
 }
 
 /**
- * Print the admin tab bar
- * @param string $p_page Specifies the current page name so it set to active.
+ * Print the admin tab bar.
+ * @param string $p_page Specifies the current page name so it is set as active.
  * @return void
  */
 function print_admin_menu_bar( $p_page ) {
-	global $g_upgrade;
-	echo '<div class="space-10"></div>';
-	echo '<ul class="nav nav-tabs padding-18">' . "\n";
+	# Build array with admin menu items, add Upgrade tab if necessary
+	$t_menu_items['index.php'] = '<i class="blue ace-icon fa fa-info-circle"></i>';
 
-	$t_active = 'index.php' == $p_page ? 'active' : '';
-	echo '<li class="green ' . $t_active . '">' . "\n";
-	echo '<a href="index.php"><i class="blue ace-icon fa fa-info-circle"></i> </a>';
-	echo '</li>' . "\n";
+	# At the beginning of admin checks, the DB is not yet loaded so we can't
+	# check the schema to inform user that an upgrade is needed
+	if( $p_page == 'check/index.php' ) {
+		# Relative URL up one level to ensure valid links on Admin Checks page
+		$t_path = '../';
+	} else {
+		global $g_upgrade;
+		include_once( 'schema.php' );
+		if( count( $g_upgrade ) - 1 != config_get( 'database_version' ) ) {
+			$t_menu_items['install.php'] = 'Upgrade your installation';
+		}
 
-	if( count( $g_upgrade ) - 1 != config_get( 'database_version' ) ) {
-		echo '<li class="bold">' . "\n";
-		echo '<a class="green" href="install.php">Upgrade your installation</a>';
-		echo '</li>' . "\n";
+		$t_path = '';
 	}
 
-	$t_active = 'system_utils.php' == $p_page ? 'active' : '';
-	echo '<li class="' . $t_active . '">' . "\n";
-	echo '<a href="system_utils.php">System Utilities</a>' . "\n";
-	echo '</li>' . "\n";
+	$t_menu_items += array(
+		'check/index.php' => 'Check Installation',
+		'system_utils.php' => 'System Utilities',
+		'test_langs.php' => 'Test Lang',
+		'email_queue.php' => 'Email Queue',
+	);
 
-	$t_active = 'test_langs.php' == $p_page ? 'active' : '';
-	echo '<li class="' . $t_active . '">' . "\n";
-	echo '<a href="test_langs.php">Test Langs</a>' . "\n";
-	echo '</li>' . "\n";
+	echo '<div class="space-10"></div>' . "\n";
+	echo '<ul class="nav nav-tabs padding-18">' . "\n";
 
-	$t_active = 'email_queue.php' == $p_page ? 'active' : '';
-	echo '<li class="' . $t_active . '">' . "\n";
-	echo '<a href="email_queue.php">Email Queue</a>' . "\n";
-	echo '</li>' . "\n";
+	foreach( $t_menu_items as $t_menu_page => $t_description ) {
+		$t_class_active = $t_menu_page == $p_page ? ' class="active"' : '';
+		$t_class_green = $t_menu_page == 'install.php' ? 'class="bold green" ' : '';
+
+		echo "\t<li$t_class_active>";
+		echo "<a " . $t_class_green
+			. 'href="' . $t_path . $t_menu_page . '">'
+			. $t_description . "</a>";
+		echo '</li>' . "\n";
+	}
 
 	echo '</ul>' . "\n";
 }

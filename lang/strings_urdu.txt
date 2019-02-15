@@ -40,6 +40,7 @@
  *
  * @author BukhariSaeed
  * @author E THP
+ * @author Muhammad Shuaib
  * @author امین اکبر
  * @author عثمان خان شاہ
  * @author محبوب عالم
@@ -164,7 +165,7 @@ $s_proceed = ' آگے جانے کے لیے یہاں پر کلک کریں';
 $s_switch = 'تبدیل';
 $s_logged_in_as = 'اس کے طور پر اندراج';
 $s_prefix_for_deleted_users = 'استہمال کرنے والہ';
-$s_administrator = 'انتظا میہ';
+$s_administrator = 'منتظم';
 $s_myself = 'میرے طور پر';
 $s_default_access_level = 'یہ استہمال ھونے والہ لیول ڈیفالٹ ھے';
 $s_issue_status_percentage = 'ایشوذ کے مقام کی فی صد';
@@ -496,7 +497,7 @@ $s_config_delete_sure = ' کیا آپ واقعی سيٹنگز کو خارج کر
 $s_in_project = '  منصو بہ میں';
 $s_delete_config_button = 'سيٹنگز کو خارج کرو';
 $s_configuration_report = 'ڈیزاہن کی رپورٹ';
-$s_database_configuration = 'ڈیٹا بیس کا ڈیزاہن';
+$s_database_configuration = 'ڈیٹابیس کی کانفیگریشن';
 $s_configuration_option = 'ڈیزاہن کی آپشن';
 $s_configuration_option_type = 'قسم';
 $s_configuration_option_value = 'قیمت';
