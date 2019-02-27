@@ -252,6 +252,10 @@ if( $t_show_attachments ) {
 		</h4>
 	</div>
 <div class="widget-body dz-clickable">
+<div class="widget-toolbox padding-8 clearfix">
+	<span class="required pull-right"> * <?php echo lang_get( 'required' ) ?></span>
+	<input <?php echo helper_get_tab_index() ?> type="submit" class="btn btn-primary btn-white btn-round" value="<?php echo lang_get( 'submit_report_button' ) ?>" />
+</div>
 <div class="widget-main no-padding">
 <div class="table-responsive">
 <table class="table table-bordered table-condensed">
