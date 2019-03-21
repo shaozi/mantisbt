@@ -96,8 +96,7 @@ $t_colors = config_get( 'status_colors' );
 foreach( $t_statuses as $t_id => $t_label ) {
 	# Status color class
 	if( array_key_exists( $t_label, $t_colors ) ) {
-		$t_color = $t_colors[$t_label];
-		echo '.' . html_get_status_css_fg( $t_id ) . " { color: {$t_color}; }\n";
-		echo '.' . html_get_status_css_bg( $t_id ) . " { background-color: {$t_color}; }\n";
+		echo '.' . $t_css_class
+			. " { color: {$t_colors[$t_label]}; }\n";
 	}
 }
