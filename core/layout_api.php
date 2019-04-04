@@ -399,6 +399,7 @@ function layout_login_page_end() {
  */
 function layout_navbar() {
 	$t_logo_url = config_get_global('logo_url');
+	$t_logo_image = config_get_global('logo_image');
 	$t_short_path = config_get_global('short_path');
 
 	echo '<div id="navbar" class="navbar navbar-default navbar-collapse navbar-fixed-top noprint">';
@@ -414,6 +415,9 @@ function layout_navbar() {
 	echo '<div class="navbar-header">';
 	echo '<a href="' . $t_short_path . $t_logo_url . '" class="navbar-brand">';
 	echo '<span class="smaller-75"> ';
+	if ($t_logo_image) {
+		echo '<img src="'. $t_logo_image . '" height="16"/> ';
+	}
 	echo string_display_line( config_get('window_title') );
 	echo ' </span>';
 	echo '</a>';
