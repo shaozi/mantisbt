@@ -233,8 +233,6 @@ function html_css() {
 	} else {
 		html_css_link( 'dropzone-' . DROPZONE_VERSION . '.min.css' );
 	}
-	# multiple select
-	html_css_link( 'multiple-select.css' );
 }
 
 /**
@@ -336,9 +334,6 @@ function html_head_javascript() {
 		# Dropzone
 		html_javascript_link( 'dropzone-' . DROPZONE_VERSION . '.min.js' );
 	}
-
-	# Multiple Select
-	html_javascript_link( 'multiple-select.js' );
 
 	html_javascript_link( 'common.js' );
 	foreach ( $g_scripts_included as $t_script_path ) {
