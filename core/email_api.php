@@ -1781,7 +1781,7 @@ function email_format_bug_message( array $p_visible_bug_data ) {
 			/* show_time_tracking */ true,  $t_email_separator2, $t_normal_date_format ) . "\n";
 	}
 
-	$t_message = $t_email_separator1 . " \n";
+	$t_message .= $t_email_separator1 . " \n";
 
 	if( isset( $p_visible_bug_data['email_bug_view_url'] ) ) {
 		$t_message .= $p_visible_bug_data['email_bug_view_url'] . " \n";
