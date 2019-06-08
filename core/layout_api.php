@@ -413,7 +413,7 @@ function layout_navbar() {
 	echo '</button>';
 
 	echo '<div class="navbar-header">';
-	echo '<a href="' . $t_short_path . $t_logo_url . '" class="navbar-brand">';
+	echo '<a href="' . $t_short_path . '" class="navbar-brand">';
 	echo '<span class="smaller-75"> ';
 	if ($t_logo_image) {
 		echo '<img src="'. $t_logo_image . '" height="16"/> ';
