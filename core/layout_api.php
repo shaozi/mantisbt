@@ -413,7 +413,7 @@ function layout_navbar() {
 	echo '</button>';
 
 	echo '<div class="navbar-header">';
-	echo '<a href="' . $t_short_path . $t_logo_url . '" class="navbar-brand">';
+	echo '<a href="' . $t_short_path . '" class="navbar-brand">';
 	echo '<span class="smaller-75"> ';
 	if ($t_logo_image) {
 		echo '<img src="'. $t_logo_image . '" height="16"/> ';
@@ -988,6 +988,21 @@ function layout_main_container_end() {
  */
 function layout_main_content_begin() {
 	echo '<div class="main-content">' , "\n";
+	if ( config_get('global_message_success') ) {
+		echo '<div class="alert alert-success" style="margin-bottom: 0px; border-radius: 0;" role="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				' . config_get('global_message_success') . '</div>';
+	}
+	if ( config_get('global_message_warning') ) {
+		echo '<div class="alert alert-warning" style="margin-bottom: 0px; border-radius: 0;" role="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				' . config_get('global_message_warning') . '</div>';
+	}
+	if ( config_get('global_message_danger') ) {
+		echo '<div class="alert alert-danger" style="margin-bottom: 0px; border-radius: 0;" role="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				' . config_get('global_message_danger') . '</div>';
+	}
 }
 
 /**
