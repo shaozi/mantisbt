@@ -988,6 +988,21 @@ function layout_main_container_end() {
  */
 function layout_main_content_begin() {
 	echo '<div class="main-content">' , "\n";
+	if ( config_get('global_message_success') ) {
+		echo '<div class="alert alert-success" style="margin-bottom: 0px; border-radius: 0;" role="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				' . config_get('global_message_success') . '</div>';
+	}
+	if ( config_get('global_message_warning') ) {
+		echo '<div class="alert alert-warning" style="margin-bottom: 0px; border-radius: 0;" role="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				' . config_get('global_message_warning') . '</div>';
+	}
+	if ( config_get('global_message_danger') ) {
+		echo '<div class="alert alert-danger" style="margin-bottom: 0px; border-radius: 0;" role="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				' . config_get('global_message_danger') . '</div>';
+	}
 }
 
 /**
