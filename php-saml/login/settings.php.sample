@@ -1,0 +1,41 @@
+<?php
+
+$spBaseUrl = 'https://YOUR_DOMAIN/php-saml';
+
+$settingsInfo = array(
+    'strict' => true,
+    'sp' => array(
+        'entityId' => 'SOME_NAME',
+        'assertionConsumerService' => array(
+            'url' => $spBaseUrl . '/login/index.php?acs',
+        ),
+        'singleLogoutService' => array(
+            'url' => $spBaseUrl . '/login/index.php?sls',
+        ),
+        'NameIDFormat' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
+        'x509cert' => '
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+',
+        'privateKey' => '
+-----BEGIN PRIVATE KEY-----
+...
+-----END PRIVATE KEY-----
+',
+    ),
+    'idp' => array(
+        # get these from you IDP
+        'entityId' => 'http://SOMESERVER/SOMEPATH/metadata/',
+        'singleSignOnService' => array(
+            'url' => 'https://SOMESERVER/saml-idp/SOMEPATH/login/',
+        ),
+        'singleLogoutService' => array(
+            'url' => 'https://SOMESERVER/SOMEPATH/logout/',
+        ),
+        'x509cert' => 'GET IT FROM IDP'
+    ),
+    'security' => array(
+        'authnRequestsSigned' => true,
+    ),
+);
