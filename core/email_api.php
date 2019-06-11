@@ -1737,7 +1737,7 @@ function email_format_bug_message( array $p_visible_bug_data ) {
 	$p_visible_bug_data['email_date_submitted'] = date( $t_complete_date_format, $p_visible_bug_data['email_date_submitted'] );
 	$p_visible_bug_data['email_last_modified'] = date( $t_complete_date_format, $p_visible_bug_data['email_last_modified'] );
 
-	$t_messsage = '';
+	$t_message = '';
 	if( array_key_exists( 'history', $p_visible_bug_data ) ) {
 		$t_raw_history_item = $p_visible_bug_data['history'][0];
 		foreach($p_visible_bug_data['history'] as $t_history) {
