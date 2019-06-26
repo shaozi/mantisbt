@@ -1413,18 +1413,6 @@ function email_send( EmailData $p_email_data ) {
 									$t_mail->AddBCC( $t_bcc_email, '' );
 					}
 					break;
-				case 'Cc':
-					$t_cc_array = preg_split( '/[\s,]+/', $t_value, NULL, PREG_SPLIT_NO_EMPTY );
-					foreach ( $t_cc_array as $t_cc_email ) {
-									$t_mail->AddCC( $t_cc_email, '' );
-					}
-					break;
-				case 'Bcc':
-					$t_bcc_array = preg_split( '/[\s,]+/', $t_value, NULL, PREG_SPLIT_NO_EMPTY );
-					foreach ( $t_bcc_array as $t_bcc_email ) {
-									$t_mail->AddBCC( $t_bcc_email, '' );
-					}
-					break;
 				default:
 					$t_mail->addCustomHeader( $t_key . ': ' . $t_value );
 					break;
