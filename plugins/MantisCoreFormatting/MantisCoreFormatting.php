@@ -189,6 +189,14 @@ class MantisCoreFormattingPlugin extends MantisFormattingPlugin {
 
 		$t_string = mention_format_text( $t_string, /* html */ true );
 
+		if( ON == $s_markdown ) {
+			# FIXME LATER:
+			# when markdown is enabled, < and " is printed as &lt; and &quot;
+			# replace them back.
+			# One issue is the literal &amp; will be converted to its html entity: &
+			# use &amp;amp;amp;
+			$t_string = str_replace("&amp;", '&', $t_string);
+		}
 		return $t_string;
 	}
 
