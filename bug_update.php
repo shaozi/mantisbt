@@ -414,7 +414,7 @@ foreach ( $t_custom_fields_to_set as $t_custom_field_to_set ) {
 
 # Add a bug note if there is one.
 if( $t_bug_note->note || helper_duration_to_minutes( $t_bug_note->time_tracking ) > 0 ) {
-	$t_bugnote_id = bugnote_add( $f_bug_id, $t_bug_note->note, $t_bug_note->time_tracking, $t_bug_note->view_state == VS_PRIVATE, 0, '', null, false );
+	$t_bugnote_id = bugnote_add( $f_bug_id, $t_bug_note->note, $t_bug_note->time_tracking, $t_bug_note->view_state == VS_PRIVATE, 0, '', null, true );
 	bugnote_process_mentions( $f_bug_id, $t_bugnote_id, $t_bug_note->note );
 }
 
