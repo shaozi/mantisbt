@@ -1374,7 +1374,7 @@ function email_send( EmailData $p_email_data ) {
 			$t_mail->AddAddress( $t_to_email, '' );
 		}
 	}
-	catch ( phpmailerException $e ) {
+	catch ( \Exception $e ) {
 		log_event( LOG_EMAIL, $t_log_msg . $t_mail->ErrorInfo );
 		$t_success = false;
 		$t_mail->clearAllRecipients();
@@ -1434,7 +1434,7 @@ function email_send( EmailData $p_email_data ) {
 			$t_success = false;
 		}
 	}
-	catch ( phpmailerException $e ) {
+	catch ( \Exception $e ) {
 		log_event( LOG_EMAIL, $t_log_msg . $t_mail->ErrorInfo );
 		$t_success = false;
 	}
