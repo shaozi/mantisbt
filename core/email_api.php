@@ -1346,8 +1346,12 @@ function email_send( EmailData $p_email_data ) {
 		$t_mail->DKIM_identity = config_get( 'email_dkim_identity' );
 	}
 
-	$t_mail->isHTML( false );              # set email format to plain text
-	$t_mail->WordWrap = 80;              # set word wrap to 80 characters
+	if( isset( $t_email_data->metadata['html'] ) ) {
+		$t_mail->isHTML( true );              # set email format to plain text
+	} else {
+		$t_mail->isHTML( false );              # set email format to plain text
+		$t_mail->WordWrap = 80;              # set word wrap to 80 characters
+	}
 	$t_mail->CharSet = $t_email_data->metadata['charset'];
 	$t_mail->Host = config_get( 'smtp_host' );
 	$t_mail->From = config_get( 'from_email' );
