@@ -1405,6 +1405,12 @@ function email_send( EmailData $p_email_data ) {
 				case 'In-Reply-To':
 					$t_mail->addCustomHeader( $t_key . ': <' . $t_value . '@' . $t_mail->Hostname . '>' );
 					break;
+				case 'Reply-To':
+					$t_irt_array = preg_split( '/[\s,]+/', $t_value, NULL, PREG_SPLIT_NO_EMPTY );
+					foreach ( $t_irt_array as $t_irt_email ) {
+						$t_mail->addReplyTo( $t_irt_email, '' );
+					}
+					break;
 				case 'Cc':
 					$t_cc_array = preg_split( '/[\s,]+/', $t_value, NULL, PREG_SPLIT_NO_EMPTY );
 					foreach ( $t_cc_array as $t_cc_email ) {
