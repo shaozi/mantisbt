@@ -1207,6 +1207,50 @@ function email_store( $p_recipient, $p_subject, $p_message, array $p_headers = n
 }
 
 /**
+ * Store HTML email in queue for sending
+ *
+ * @param string  $p_recipient      Email recipient address.
+ * @param string  $p_subject        Subject of email message.
+ * @param string  $p_message_body   Body html of email message.
+ * @param string  $p_cc             Email cc list.
+ * @param string  $p_bcc            Email bcc list.
+ * @param string  $p_reply_to       Email reply to list.
+ * 
+ * @return integer|null
+ */
+function enqueue_html_email( $p_recipient, $p_subject, $p_message_body, $p_cc = '', $p_bcc = '', $p_reply_to = '' ) {
+	$meta_data = array('html'=>true, 'charset'=>'utf-8');
+	$headers = array();
+	if ($p_cc) {
+		$headers['Cc'] = $p_cc;
+	}
+	if ($p_bcc) {
+		$headers['Bcc'] = $p_bcc;
+	}
+	if ($p_reply_to) {
+		$headers['Reply-To'] = $p_reply_to;
+	}
+	if ($headers) {
+		$meta_data['headers'] = $headers;
+	}
+	$meta_data_str = serialize($meta_data);
+	# insert into email table
+	db_param_push();
+	$t_query = 'INSERT INTO {email}
+			(email, subject, metadata, body, submitted)
+		VALUES ('
+		. db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', '
+		. 'UNIX_TIMESTAMP() )';
+	$t_params = array($p_recipient, $p_subject, $meta_data_str, $p_message_body);
+	db_query( $t_query, $t_params );
+
+	# get email id
+	$t_email_id = db_insert_id( db_get_table( 'email' ) );
+	log_event( LOG_EMAIL_VERBOSE,  "HTML Email saved to database. email_id = $t_email_id");
+	return $t_email_id;
+}
+
+/**
  * This function sends all the emails that are stored in the queue.
  * It will be called
  * - immediately after queueing messages in case of synchronous emails
